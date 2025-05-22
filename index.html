@@ -23,9 +23,6 @@
 
 
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
 
 
@@ -40,19 +37,6 @@
 <body>
 
 
-
-<!-- 🔐 LOGIN SCREEN -->
-<div id="login-container" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;">
-  <h2>Welcome! Please log in</h2>
-  <button id="login-btn">Login with Google</button>
-</div>
-
-<!-- 👤 USER INFO AT TOP RIGHT (HIDDEN INITIALLY) -->
-<div id="user-info" style="display:none; position:fixed; top:10px; right:10px; background:white; padding:5px 10px; border-radius:20px; box-shadow:0 0 5px rgba(0,0,0,0.2); display:flex; align-items:center; gap:10px;">
-  <img id="user-photo" style="width:36px; height:36px; border-radius:50%;" />
-  <span id="user-name" style="font-weight:bold;"></span>
-  <button id="logout-btn">Logout</button>
-</div>
 
 
 
@@ -713,61 +697,7 @@
 
 
 
-<script>
-  const auth = firebase.auth();
-  const provider = new firebase.auth.GoogleAuthProvider();
 
-  const loginContainer = document.getElementById("login-container");
-  const appContent = document.getElementById("app-content");
-  const userInfo = document.getElementById("user-info");
-  const loginBtn = document.getElementById("login-btn");
-  const logoutBtn = document.getElementById("logout-btn");
-  const userPhoto = document.getElementById("user-photo");
-  const userName = document.getElementById("user-name");
-
-  // 🔐 Login button click
-  loginBtn.addEventListener("click", () => {
-    auth.signInWithPopup(provider)
-      .then((result) => {
-        showUser(result.user);
-      })
-      .catch((error) => {
-        alert("Login failed: " + error.message);
-      });
-  });
-
-  // 🔓 Logout button click
-  logoutBtn.addEventListener("click", () => {
-    auth.signOut().then(() => {
-      showLogin();
-    });
-  });
-
-  // 🔄 Auto-detect login state
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      showUser(user);
-    } else {
-      showLogin();
-    }
-  });
-
-  // ✅ Show portfolio + user info
-  function showUser(user) {
-    loginContainer.style.display = "none";
-    appContent.style.display = "block";
-    userInfo.style.display = "flex";
-    userPhoto.src = user.photoURL;
-    userName.textContent = user.displayName;
-  }
-
-  // 🔁 Show login screen only
-  function showLogin() {
-    loginContainer.style.display = "flex";
-    appContent.style.display = "none";
-    userInfo.style.display = "none";
-  }
-</script>
 
 
 
